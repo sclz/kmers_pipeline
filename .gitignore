@@ -1,0 +1,22 @@
+# Ignora file di log
+*.log
+*.log.*
+
+# Ignora file di sistema
+.DS_Store
+
+# Ignora directory di Nextflow e di lavoro
+.nextflow/
+work/
+out/
+
+# Ignora file binari di indice del genoma
+genome.*
+*.ebwt
+*.fa
+
+# Ignora altre directory specifiche
+kmer_lists_prova/
+kmers_lists/
+data/
+coordinates/
