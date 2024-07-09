@@ -1,0 +1,4 @@
+sample_id,sample_bam,sample_bai
+GNT22082665,/Users/lorenzo/WORKIN/kmers/nextflow/data/GNT22082665.bam,/Users/lorenzo/WORKIN/kmers/nextflow/data/GNT22082665.bam.bai
+XX879001016,/Users/lorenzo/WORKIN/kmers/nextflow/data/XX879001016.bam,/Users/lorenzo/WORKIN/kmers/nextflow/data/XX879001016.bam.bai
+XX879003210,/Users/lorenzo/WORKIN/kmers/nextflow/data/XX879003210.bam,/Users/lorenzo/WORKIN/kmers/nextflow/data/XX879003210.bam.bai

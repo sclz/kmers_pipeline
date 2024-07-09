@@ -1,16 +1,17 @@
 process CREATETABLE {
 
-    publishDir params.out, pattern: "*.tsv",  mode: 'copy'
+    publishDir params.outdirtable, pattern: "*.tsv",  mode: 'copy'
 
     input:
-    path("ksum/*")
-    path("reads/*")
+    path(outdirksum)
+    path(outdireads)
+    
 
     output:
     path("results.tsv"), emit: table
 
     script:
     """
-    python3 $projectDir/bin/createtable.py ksum reads
+    python3 $projectDir/bin/createtable.py $outdirksum $outdireads
     """
 }

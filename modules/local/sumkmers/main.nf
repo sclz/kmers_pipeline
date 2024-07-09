@@ -1,6 +1,6 @@
 process SUMKMERS {
 
-    publishDir params.outdiksum, pattern: "*.ksum",  mode: 'copy'
+    publishDir params.outdirksum, pattern: "*.ksum",  mode: 'copy'
 
     input:
     tuple val(id), path(kcounts)

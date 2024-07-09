@@ -1,7 +1,7 @@
 process MAPPEDFILTERING {
     container 'quay.io/biocontainers/samtools:1.6--hc3601fc_10'
 
-    publishDir params.outdir,  mode: 'copy'
+    publishDir params.outdir_lists,  mode: 'copy'
 
     input:
     path kmers_sam

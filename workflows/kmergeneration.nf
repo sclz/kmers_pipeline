@@ -19,6 +19,4 @@ workflow KMER_GENERATION {
         kmers_sam_ch = KMERSMAPPING.out.kmers_sam
         MAPPEDFILTERING(kmers_sam_ch, bed)
         kmers_list_ch = MAPPEDFILTERING.out.kmers_list
-    //output:
-       //s kmers_list_ch
 }       

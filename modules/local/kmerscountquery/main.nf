@@ -4,7 +4,7 @@ process KMERSCOUNTQUERY {
   publishDir params.outdir, pattern: "*.fa",  mode: 'copy'
 
   input: 
-  val kmer
+  val klen
   tuple val(id), path(fastq) 
   path kmer_list
 
@@ -16,7 +16,7 @@ process KMERSCOUNTQUERY {
 
   shell:
     '''
-    jellyfish count -m !{kmer} -s 100M --out-counter-len 1 -t 8 -C !{fastq} -o !{id}.jf
+    jellyfish count -m !{klen} -s 100M --out-counter-len 1 -t 8 -C !{fastq} -o !{id}.jf
     jellyfish query !{id}.jf -s !{kmer_list} -o !{id}.fa
     '''
 
