@@ -16,7 +16,8 @@ process KMERSCOUNTQUERY {
 
   shell:
     '''
-    jellyfish count -m !{klen} -s 100M --out-counter-len 1 -t 8 -C !{fastq} -o !{id}.jf
+    #jellyfish count -m !{klen} -s 100M --out-counter-len 1 -t 8 -C !{fastq} -o !{id}.jf
+    jellyfish count -m !{klen} -s 100M -t 8 -C !{fastq} -o !{id}.jf
     jellyfish query !{id}.jf -s !{kmer_list} -o !{id}.fa
     '''
 

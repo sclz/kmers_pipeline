@@ -8,7 +8,7 @@ process COUNTREADS {
  
 
     output:
-    tuple val(id), path("${id}.readscount"),  emit: num_reads
+    path("${id}.readscount"),  emit: num_reads
 
     shell:
     """
