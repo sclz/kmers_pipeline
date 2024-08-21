@@ -1,19 +1,27 @@
 import os
 import sys
 import pandas as pd
-import numpy as np
+
+def calculate_zscore(values):
+    """
+    Calcola lo z-score per una serie di valori.
+    """
+    mean = values.mean()
+    std = values.std()
+    zscores = (values - mean) / std if std != 0 else [0] * len(values)
+    return zscores
 
 def main():
     if len(sys.argv) != 3:
-        print("Usage: python3 script4.py cartellakmers cartellareads")
+        print("Usage: python3 script.py cartellakmers cartellareads")
         sys.exit(1)
     
     cartella_kmers = sys.argv[1]
     cartella_reads = sys.argv[2]
     
-    # Lista per raccogliere i risultati per ogni campione
-    data = []
-
+    # Dizionario per raccogliere i risultati per coordinate
+    results = {}
+    
     # Scandisci i file nella cartella di kmers
     for filename in os.listdir(cartella_kmers):
         if filename.endswith(".ksum"):
@@ -43,28 +51,33 @@ def main():
             # Separazione dei componenti della stringa sample_name
             parts = sample_name.split('_')
             if len(parts) >= 3:
-                sample_id = parts[0]
                 chrom = parts[1]
                 start_end = parts[2]
                 start, end = start_end.split('-') if '-' in start_end else (start_end, '')
             else:
-                sample_id = sample_name
                 chrom = ''
                 start = ''
                 end = ''
             
-            # Aggiungi i risultati alla lista
-            data.append([sample_id, chrom, start, end, nreads, kmers_sum, kmers_norm])
+            coordinate = f"{chrom}:{start}-{end}"
+            
+            # Aggiungi i risultati al dizionario
+            if coordinate not in results:
+                results[coordinate] = {}
+            results[coordinate][sample_id] = kmers_norm
     
-    # Crea un DataFrame con i risultati
-    df = pd.DataFrame(data, columns=['sample', 'chr', 'start', 'end', 'nreads', 'kmers', 'kmers_norm'])
+    # Converti il dizionario in un DataFrame
+    df = pd.DataFrame(results).T
+    df.index.name = 'coordinate'
     
-    # Calcola lo zscore per la colonna kmers_norm
-    df['zscore'] = (df['kmers_norm'] - df['kmers_norm'].mean()) / df['kmers_norm'].std()
+    # Calcola lo z-score per ogni riga e sostituisci i valori originali
+    for index, row in df.iterrows():
+        df.loc[index] = calculate_zscore(row)
     
     # Salva la tabella in un file TSV
-    df.to_csv('results.tsv', sep='\t', index=False)
+    df.to_csv('results.tsv', sep='\t')
     print("Risultati salvati in results.tsv")
 
 if __name__ == "__main__":
     main()
+
