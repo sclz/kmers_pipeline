@@ -8,7 +8,7 @@ workflow KMER_GENERATION {
         reference
         bed
         klen
-        outdir
+        outdir_lists
 
     main:
         COORDINATEFILTER(reference, bed)
@@ -17,6 +17,6 @@ workflow KMER_GENERATION {
         kmers_fasta_ch = KMERSCOUNTDUMP.out.kmers_fasta
         KMERSMAPPING(kmers_fasta_ch, reference)
         kmers_sam_ch = KMERSMAPPING.out.kmers_sam
-        MAPPEDFILTERING(kmers_sam_ch, bed)
+        MAPPEDFILTERING(kmers_sam_ch)
         kmers_list_ch = MAPPEDFILTERING.out.kmers_list
 }       

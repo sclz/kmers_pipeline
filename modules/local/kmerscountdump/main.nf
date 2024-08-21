@@ -4,18 +4,19 @@ process KMERSCOUNTDUMP {
 
     input: 
     val kmer
-    path region_fasta 
+    tuple val(chrom), val(start), val(end), path("${chrom}_${start}-${end}.fa")
+    
   
     output:
-    path("all_kmers.fa"), emit: kmers_fasta
+    tuple val(chrom), val(start), val(end), path("${chrom}_${start}-${end}_all_kmers.fa"), emit: kmers_fasta
   
  
 
     shell:
 
     '''
-    jellyfish count -m !{kmer} -s 100M --out-counter-len 1 -t 8 !{region_fasta} -o "all_kmers.jf"
-    jellyfish dump "all_kmers.jf" > "all_kmers.fa"
+    jellyfish count -m !{kmer} -s 100M --out-counter-len 1 -t 8 "!{chrom}_!{start}-!{end}.fa" -o "!{chrom}_!{start}-!{end}_all_kmers.jf"
+    jellyfish dump "!{chrom}_!{start}-!{end}_all_kmers.jf" > "!{chrom}_!{start}-!{end}_all_kmers.fa"
     '''
 
 }

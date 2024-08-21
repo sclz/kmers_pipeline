@@ -5,7 +5,6 @@ workflow KMER_NORMALIZATION {
     
     take:
         bam
-        bai
         kcounts
 
     main:

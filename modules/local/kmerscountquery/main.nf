@@ -5,20 +5,19 @@ process KMERSCOUNTQUERY {
 
   input: 
   val klen
-  tuple val(id), path(fastq) 
+  tuple val(id), val(chrom), val(start), val(end), path("${id}_${chrom}_${start}-${end}.fastq")
   path kmer_list
 
   
   output:
-  tuple val(id), path("${id}.fa"), emit: kmers_fasta
+  tuple val(id), val(chrom), val(start), val(end), path("${id}_${chrom}_${start}-${end}.fa"), emit: kmers_fasta
   
  
 
   shell:
     '''
-    #jellyfish count -m !{klen} -s 100M --out-counter-len 1 -t 8 -C !{fastq} -o !{id}.jf
-    jellyfish count -m !{klen} -s 100M -t 8 -C !{fastq} -o !{id}.jf
-    jellyfish query !{id}.jf -s !{kmer_list} -o !{id}.fa
+    jellyfish count -m !{klen} -s 100M -t 8 -C !{id}_!{chrom}_!{start}-!{end}.fastq -o !{id}_!{chrom}_!{start}-!{end}.jf
+    jellyfish query !{id}_!{chrom}_!{start}-!{end}.jf -s !{kmer_list}/!{chrom}_!{start}-!{end}_list.fa -o !{id}_!{chrom}_!{start}-!{end}.fa
     '''
 
 }

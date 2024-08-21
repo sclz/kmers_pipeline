@@ -4,16 +4,15 @@ process COORDINATEFILTER {
 
     input: // input specificare i canali di iput
     path reference
-    path bed
-
+    tuple val(chrom), val(start), val(end)
   
     output:
-    path("region.fa"), emit: region_fasta
+    tuple val(chrom), val(start), val(end), path("${chrom}_${start}-${end}.fa"), emit: region_fasta 
+    
 
     shell:
     '''
-    read -r chrom start end < "!{bed}"
-    region="${chrom}:${start}-${end}"
-    samtools faidx !{reference} ${region} > "region.fa"
+    region="!{chrom}:!{start}-!{end}"
+    samtools faidx !{reference} ${region} > "!{chrom}_!{start}-!{end}.fa"
     '''
 }

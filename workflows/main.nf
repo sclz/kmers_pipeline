@@ -6,26 +6,46 @@ include { KMER_TELOMERS} from '../subworkflow/telomers.nf'
 
     Channel
         .fromPath(params.bam, checkIfExists: true)
-        //.fromPath("/Users/lorenzo/WORKIN/kmers/nextflow/data/*.bam", checkIfExists: true)
         .map{ tuple( it.getSimpleName(), it ) }
         .set { bam_ch }
-        bam_ch.view()
+        //bam_ch.view()
     
     Channel
         .fromPath(params.bai, checkIfExists: true)
-        //.fromPath("/Users/lorenzo/WORKIN/kmers/nextflow/data/*.bai", checkIfExists: true)
         .map{ tuple( it.getSimpleName(), it ) }
-        .set { bai_ch }               
-        bai_ch.view()
+        .set { bai_ch }
+        //bai_ch.view()            
+    
+    Channel
+        .fromPath(params.bed, checkIfExists: true)
+        .splitCsv ( header:false, sep:' ' )
+        .map{ tuple( it[0], it[1], it[2] ) }
+        .set { bed_ch }
+
+    bam_bai = bam_ch.join(bai_ch)
+
+    Channel 
+        bam_bai.combine(bed_ch)
+        .set { bam_coordinates_ch }
+        bam_coordinates_ch.view()
+    
+    
+
+        
+
+   //Channel 
+   //     bai_ch.combine(bed_ch)
+   //     .set { bai_coordinates_ch }
+   //     bai_coordinates_ch.view()    
 
 workflow JULIA_OMIX {
     if ( params.mode == "generate_list" ) {
         
-        KMER_GENERATION(params.reference, params.bed, params.klen, params.outdir_lists)
+        KMER_GENERATION(params.reference, bed_ch, params.klen, params.outdir_lists)
     }
     else if ( params.mode == "count" ) {
     
-        KMER_WORKFLOW(bam_ch, bai_ch, params.bed, params.outdir, params.klen, params.kmer_list)
+        KMER_WORKFLOW(bam_coordinates_ch, params.outdir, params.klen, params.kmer_list)
     }    
     else if ( params.mode == "normalization" ){
 
@@ -48,9 +68,9 @@ workflow JULIA_OMIX {
     }
     else {
 
-        KMER_WORKFLOW(bam_ch, bai_ch, params.bed, params.outdir, params.klen, params.kmer_list)
+        KMER_WORKFLOW(bam_coordinates_ch, params.outdir, params.klen, params.kmer_list)
         kcounts = KMER_WORKFLOW.out.kmers_fasta_ch
-        KMER_NORMALIZATION(bam_ch, bai_ch, kcounts)
+        KMER_NORMALIZATION(bam_ch, kcounts)
         ksum = KMER_NORMALIZATION.out.kmersum_ch.collect()
         reads = KMER_NORMALIZATION.out.readscounts_ch.collect()
         KMER_TABLE(ksum, reads)

@@ -1,5 +1,5 @@
 mode="other"
-bed="/Users/lorenzo/WORKIN/kmers/nextflow/coordinates/coordinate_prova2.bed"
+bed="/Users/lorenzo/WORKIN/kmers/nextflow/coordinates/coordinate_prova_multi.bed"
 klen="25"
 #klen="6" #telomers
 
@@ -9,7 +9,8 @@ outdir_lists="/Users/lorenzo/WORKIN/kmers/nextflow/kmers_lists"
 
 bam="/Users/lorenzo/WORKIN/kmers/nextflow/data"
 bai="/Users/lorenzo/WORKIN/kmers/nextflow/data"
-kmer_list="/Users/lorenzo/WORKIN/kmers/nextflow/kmers_lists/lista_test.fa"
+#kmer_list="/Users/lorenzo/WORKIN/kmers/nextflow/kmers_lists/lista_test.fa"
+kmer_list="/Users/lorenzo/WORKIN/kmers/nextflow/kmers_lists"
 #kmer_list="/Users/lorenzo/WORKIN/kmers/nextflow/kmers_lists/lista_telomeri_6.fa" #telomers
 outdir="/Users/lorenzo/WORKIN/kmers/nextflow/out"
 
