@@ -8,13 +8,11 @@ include { KMER_TELOMERS} from '../subworkflow/telomers.nf'
         .fromPath(params.bam, checkIfExists: true)
         .map{ tuple( it.getSimpleName(), it ) }
         .set { bam_ch }
-        //bam_ch.view()
     
     Channel
         .fromPath(params.bai, checkIfExists: true)
         .map{ tuple( it.getSimpleName(), it ) }
-        .set { bai_ch }
-        //bai_ch.view()            
+        .set { bai_ch }         
     
     Channel
         .fromPath(params.bed, checkIfExists: true)
@@ -27,34 +25,20 @@ include { KMER_TELOMERS} from '../subworkflow/telomers.nf'
     Channel 
         bam_bai.combine(bed_ch)
         .set { bam_coordinates_ch }
-        bam_coordinates_ch.view()
-    
-    
-
-        
-
-   //Channel 
-   //     bai_ch.combine(bed_ch)
-   //     .set { bai_coordinates_ch }
-   //     bai_coordinates_ch.view()    
+     
 
 workflow JULIA_OMIX {
-    if ( params.mode == "generate_list" ) {
+ 
+    if ( params.mode == "generate_lists" ) {
         
         KMER_GENERATION(params.reference, bed_ch, params.klen, params.outdir_lists)
-    }
-    else if ( params.mode == "count" ) {
-    
-        KMER_WORKFLOW(bam_coordinates_ch, params.outdir, params.klen, params.kmer_list)
-    }    
-    else if ( params.mode == "normalization" ){
-
-        KMER_NORMALIZATION(params.bam, params.bai, params.kcounts, params.outdireads, params.outdirksum) 
-        
-    }
+    }  
     else if ( params.mode == "table" ){
 
-        KMER_TABLE(params.outdirksum, params.outdireads)
+        KMER_NORMALIZATION(bam_ch, kcounts_ch)
+        ksum = KMER_NORMALIZATION.out.kmersum_ch.collect()
+        reads = KMER_NORMALIZATION.out.readscounts_ch.collect()
+        KMER_TABLE(ksum, rea)
 
     }
     else if ( params.mode == "telomers" ){
@@ -74,7 +58,7 @@ workflow JULIA_OMIX {
         ksum = KMER_NORMALIZATION.out.kmersum_ch.collect()
         reads = KMER_NORMALIZATION.out.readscounts_ch.collect()
         KMER_TABLE(ksum, reads)
-    }    
+    }
     
 }
 

@@ -1,6 +1,8 @@
 process SUMKMERS {
 
     publishDir params.outdirksum, pattern: "*.ksum",  mode: 'copy'
+    
+    memory '20 MB'
 
     input:
     //tuple val(id), val(chrom), val(start), val(end), path(kcounts)

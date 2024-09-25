@@ -1,7 +1,9 @@
 process KMERSCOUNTQUERY {
   container 'quay.io/biocontainers/kmer-jellyfish:2.3.1--h4ac6f70_0'
 
-  publishDir params.outdir, pattern: "*.fa",  mode: 'copy'
+  memory '2 GB'
+  cpus 2
+  //publishDir params.outdir, pattern: "*.fa",  mode: 'copy'
 
   input: 
   val klen

@@ -1,5 +1,7 @@
 process CREATETABLE {
-
+    container "biocontainers/pandas:1.5.1_cv1"
+    memory '12 GB'
+    cpus 6
     publishDir params.outdirtable, pattern: "*.tsv",  mode: 'copy'
 
     input:

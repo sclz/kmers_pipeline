@@ -1,6 +1,8 @@
 process FASTQPREPARATION {
   container 'quay.io/biocontainers/samtools:1.6--hc3601fc_10'
 
+  memory '50 MB'
+
   input:
   tuple val(id), path(bam), path(bai), val(chrom), val(start), val(end) // id nome campione, bam bam del campione
 

@@ -2,6 +2,8 @@ process KMERSCOUNTDUMP {
 
     container 'quay.io/biocontainers/kmer-jellyfish:2.3.1--h4ac6f70_0'
 
+    memory '1.5 GB'
+
     input: 
     val kmer
     tuple val(chrom), val(start), val(end), path("${chrom}_${start}-${end}.fa")

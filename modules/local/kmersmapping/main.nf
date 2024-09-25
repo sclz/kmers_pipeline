@@ -1,6 +1,9 @@
 process KMERSMAPPING {
     container 'quay.io/biocontainers/bowtie:1.3.1--py310h7b97f60_6'
-
+    
+    memory '2 GB'
+    cpus 2
+    
     input:
     tuple val(chrom), val(start), val(end), path("${chrom}_${start}-${end}_all_kmers.fa")
     path reference

@@ -15,6 +15,7 @@ workflow KMER_WORKFLOW {
         fastq_ch = FASTQPREPARATION.out.fastq
         KMERSCOUNTQUERY(klen, fastq_ch, kmer_list)
         kmers_fasta_ch = KMERSCOUNTQUERY.out.kmers_fasta
+        
 
     emit:
         kmers_fasta_ch
