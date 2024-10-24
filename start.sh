@@ -1,5 +1,5 @@
-mode="generate_list"
-bed="/Users/lorenzo/WORKIN/kmers/nextflow/coordinates/500_kb_position.bed"
+mode="other"
+bed="/Users/lorenzo/WORKIN/kmers/nextflow/coordinates/coordinate_reali.bed"
 klen="25" #6 in telomers
 
 reference="/Users/lorenzo/WORKIN/kmers/nextflow/hg38.fa"
@@ -10,11 +10,12 @@ bai="/Users/lorenzo/WORKIN/kmers/nextflow/data"
 kmer_list="/Users/lorenzo/WORKIN/kmers/nextflow/kmers_lists" #lista_telomeri_6.fa" in telomers
 outdir="/Users/lorenzo/WORKIN/kmers/nextflow/out"
 
-kcounts="/Users/lorenzo/WORKIN/kmers/nextflow/out/*.fa"
-outdireads="/Users/lorenzo/WORKIN/kmers/nextflow/out/totreads"
-outdirksum="/Users/lorenzo/WORKIN/kmers/nextflow/out/totkmers"
+#kcounts="/Users/lorenzo/WORKIN/kmers/nextflow/out/*.fa"
+outdirreads="/Users/lorenzo/WORKIN/kmers/nextflow/out/totreads"
+outdirkmers="/Users/lorenzo/WORKIN/kmers/nextflow/out/kmers"
+#outdirksum="/Users/lorenzo/WORKIN/kmers/nextflow/out/totkmers"
 
-nextflow run main.nf --mode $mode --reference $reference --bed $bed --klen $klen --outdir_lists $outdir_lists --bam "$bam/*.bam" --bai "$bai/*.bai" --outdir $outdir --kmer_list $kmer_list --kcounts $kcounts --outdireads $outdireads --outdirksum $outdirksum --outdirtable $outdir
+nextflow run main.nf -resume -with-report --mode $mode --reference $reference --bed $bed --klen $klen --outdir_lists $outdir_lists --bam "$bam/*.bam" --bai "$bai/*.bai" --outdir $outdir --outdirkmers $outdirkmers --kmer_list $kmer_list  --outdirreads $outdirreads  --outdirtable $outdir # --outdirksum $outdirksum --kcounts $kcounts
 
 
 

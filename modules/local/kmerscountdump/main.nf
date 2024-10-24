@@ -2,7 +2,7 @@ process KMERSCOUNTDUMP {
 
     container 'quay.io/biocontainers/kmer-jellyfish:2.3.1--h4ac6f70_0'
 
-    memory '1.5 GB'
+    memory '3 GB'
 
     input: 
     val kmer

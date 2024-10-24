@@ -1,7 +1,7 @@
 process KMERSMAPPING {
     container 'quay.io/biocontainers/bowtie:1.3.1--py310h7b97f60_6'
     
-    memory '2 GB'
+    memory '3 GB'
     cpus 2
     
     input:

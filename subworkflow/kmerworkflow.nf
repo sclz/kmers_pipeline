@@ -1,11 +1,12 @@
 include {FASTQPREPARATION} from '../modules/local/fastqpreparation/main'
 include {KMERSCOUNTQUERY} from '../modules/local/kmerscountquery/main'
-      
+
+
 workflow KMER_WORKFLOW {
     
     take:
         bam_coordinates
-        outdir
+        outdirkmers
         klen
         kmer_list
 

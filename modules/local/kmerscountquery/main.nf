@@ -1,9 +1,9 @@
 process KMERSCOUNTQUERY {
   container 'quay.io/biocontainers/kmer-jellyfish:2.3.1--h4ac6f70_0'
 
-  memory '2 GB'
+  memory '3 GB'
   cpus 2
-  //publishDir params.outdir, pattern: "*.fa",  mode: 'copy'
+  publishDir params.outdirkmers, pattern: "*.fa",  mode: 'copy'
 
   input: 
   val klen
@@ -12,8 +12,8 @@ process KMERSCOUNTQUERY {
 
   
   output:
-  tuple val(id), val(chrom), val(start), val(end), path("${id}_${chrom}_${start}-${end}.fa"), emit: kmers_fasta
-  
+  //tuple val(id), val(chrom), val(start), val(end), path("${id}_${chrom}_${start}-${end}.fa"), emit: kmers_fasta
+  path("${id}_${chrom}_${start}-${end}.fa"), emit: kmers_fasta
  
 
   shell:

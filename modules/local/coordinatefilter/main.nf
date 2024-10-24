@@ -2,7 +2,7 @@ process COORDINATEFILTER {
 
     container 'quay.io/biocontainers/samtools:1.6--hc3601fc_10'
 
-    memory '50 MB'
+    memory '1 GB'
 
     input: // input specificare i canali di iput
     path reference

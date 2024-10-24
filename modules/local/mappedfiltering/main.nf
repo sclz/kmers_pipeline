@@ -1,7 +1,7 @@
 process MAPPEDFILTERING {
     container 'quay.io/biocontainers/samtools:1.6--hc3601fc_10'
 
-    memory '1 GB'
+    memory '2 GB'
 
     publishDir params.outdir_lists,  mode: 'copy'
 

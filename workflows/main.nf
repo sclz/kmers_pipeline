@@ -1,6 +1,6 @@
 include { KMER_WORKFLOW } from '../subworkflow/kmerworkflow.nf'
 include { KMER_GENERATION } from '../subworkflow/kmergeneration.nf'
-include { KMER_NORMALIZATION } from '../subworkflow/kmernormalization.nf'
+include { READS_COUNTS } from '../subworkflow/readscounts.nf'
 include { KMER_TABLE } from '../subworkflow/kmertable.nf'
 include { KMER_TELOMERS} from '../subworkflow/telomers.nf'
 
@@ -50,15 +50,22 @@ workflow JULIA_OMIX {
         reads = KMER_NORMALIZATION.out.readscounts_ch.collect()
         KMER_TABLE(ksum, reads)
     }
+
     else {
 
-        KMER_WORKFLOW(bam_coordinates_ch, params.outdir, params.klen, params.kmer_list)
-        kcounts = KMER_WORKFLOW.out.kmers_fasta_ch
-        KMER_NORMALIZATION(bam_ch, kcounts)
-        ksum = KMER_NORMALIZATION.out.kmersum_ch.collect()
-        reads = KMER_NORMALIZATION.out.readscounts_ch.collect()
-        KMER_TABLE(ksum, reads)
-    }
+        KMER_WORKFLOW(bam_coordinates_ch, params.outdirkmers , params.klen, params.kmer_list)
+        kcounts = KMER_WORKFLOW.out.kmers_fasta_ch.collect()
+        READS_COUNTS(bam_ch)
+        reads = READS_COUNTS.out.readscounts_ch.collect()
+        KMER_TABLE(kcounts, reads)    
     
+        //KMER_WORKFLOW(bam_coordinates_ch, params.outdir, params.klen, params.km>
+        //kcounts = KMER_WORKFLOW.out.kmers_fasta_ch
+        //KMER_NORMALIZATION(bam_ch, kcounts)
+        //ksum = KMER_NORMALIZATION.out.kmersum_ch.collect()
+        //reads = KMER_NORMALIZATION.out.readscounts_ch.collect()
+        //KMER_TABLE(ksum, reads)
+    }
+
 }
 
